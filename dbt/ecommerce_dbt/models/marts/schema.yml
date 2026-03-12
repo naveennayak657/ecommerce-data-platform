@@ -1,0 +1,215 @@
+# ──────────────────────────────────────────────────
+# Author: Naveen Vishlavath
+# File: marts/schema.yml
+#
+# Tests and documentation for all mart models.
+# dbt runs these tests automatically on every run
+# to catch data quality issues before analysts see them.
+#
+# Test types used:
+#   - unique        : no duplicate values
+#   - not_null      : no missing values
+#   - accepted_values: only valid values allowed
+#   - relationships : referential integrity checks
+# ──────────────────────────────────────────────────
+
+version: 2
+
+models:
+  # ────────────────────────────────────────────────
+  # FCT_ORDERS
+  # ────────────────────────────────────────────────
+  - name: fct_orders
+    description: >
+      Orders fact table. One row per order event.
+      Core table for revenue and order analysis.
+
+    columns:
+      - name: order_id
+        description: Unique identifier for each order
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: ID of the user who placed the order
+        tests:
+          - not_null
+
+      - name: product_id
+        description: ID of the product ordered
+        tests:
+          - not_null
+
+      - name: order_value
+        description: Total value of the order
+        tests:
+          - not_null
+
+      - name: order_value_tier
+        description: Order value classification
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["high", "medium", "low"]
+
+      - name: ordered_at
+        description: Timestamp when order was placed
+        tests:
+          - not_null
+
+      - name: is_first_order
+        description: True if this is the user's first order
+        tests:
+          - not_null
+
+      - name: user_lifetime_value
+        description: Cumulative spend by user up to this order
+        tests:
+          - not_null
+
+  # ────────────────────────────────────────────────
+  # FCT_PAYMENTS
+  # ────────────────────────────────────────────────
+  - name: fct_payments
+    description: >
+      Payments fact table. One row per payment event.
+      Used for payment success rate and revenue analysis.
+
+    columns:
+      - name: payment_id
+        description: Unique identifier for each payment
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: ID of the user who made the payment
+        tests:
+          - not_null
+
+      - name: payment_method
+        description: Payment method used
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["credit_card", "debit_card", "paypal", "apple_pay"]
+
+      - name: payment_status
+        description: Status of the payment
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["success", "failed"]
+
+      - name: is_successful
+        description: True if payment was successful
+        tests:
+          - not_null
+
+      - name: payment_amount
+        description: Total amount of the payment
+        tests:
+          - not_null
+
+      - name: running_success_rate_pct
+        description: Running success rate for this payment method
+        tests:
+          - not_null
+
+  # ────────────────────────────────────────────────
+  # FCT_USER_BEHAVIOR
+  # ────────────────────────────────────────────────
+  - name: fct_user_behavior
+    description: >
+      User behavior fact table. One row per user session.
+      Used for funnel analysis and cart abandonment tracking.
+
+    columns:
+      - name: user_id
+        description: ID of the user
+        tests:
+          - not_null
+
+      - name: session_id
+        description: Unique session identifier
+        tests:
+          - not_null
+
+      - name: user_type
+        description: New or returning user classification
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["new", "returning"]
+
+      - name: session_value_tier
+        description: Session value classification
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["high_value", "medium_value", "low_value", "no_purchase"]
+
+      - name: is_cart_abandoned
+        description: True if user added to cart but never ordered
+        tests:
+          - not_null
+
+      - name: did_complete_payment
+        description: True if user completed a payment
+        tests:
+          - not_null
+
+      - name: session_revenue
+        description: Total revenue generated in this session
+        tests:
+          - not_null
+
+  # ────────────────────────────────────────────────
+  # DIM_PRODUCTS
+  # ────────────────────────────────────────────────
+  - name: dim_products
+    description: >
+      Product dimension table. One row per product.
+      Contains product attributes and performance metrics.
+
+    columns:
+      - name: product_id
+        description: Unique identifier for each product
+        tests:
+          - unique
+          - not_null
+
+      - name: product_name
+        description: Name of the product
+        tests:
+          - not_null
+
+      - name: category
+        description: Product category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["electronics", "sports", "kitchen", "home", "fashion"]
+
+      - name: current_price
+        description: Most recent price of the product
+        tests:
+          - not_null
+
+      - name: performance_tier
+        description: Product performance classification
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["top_performer", "mid_performer", "low_performer"]
+
+      - name: view_to_order_conversion_pct
+        description: Percentage of views that result in orders
+        tests:
+          - not_null
+
+      - name: revenue_rank
+        description: Revenue rank across all products
+        tests:
+          - not_null

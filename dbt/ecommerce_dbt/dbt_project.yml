@@ -1,0 +1,43 @@
+# ──────────────────────────────────────────────────
+# Author: Naveen Vishlavath
+# File: dbt_project.yml
+#
+# Main dbt project configuration file.
+# Defines model structure, materialization strategies,
+# and schema mappings for each layer.
+#
+# Materialization strategy:
+#   staging → views (lightweight, always fresh)
+#   marts   → tables (pre-computed, fast for analysts)
+# ──────────────────────────────────────────────────
+
+name: "ecommerce_dbt"
+version: "1.0.0"
+config-version: 2
+
+profile: "ecommerce_dbt"
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  ecommerce_dbt:
+    staging:
+      # views are cheap and always reflect latest data
+      # perfect for staging layer
+      +materialized: view
+      +schema: STAGING
+
+    marts:
+      # tables are pre-computed and fast for analysts
+      # perfect for business-facing layer
+      +materialized: table
+      +schema: MARTS
