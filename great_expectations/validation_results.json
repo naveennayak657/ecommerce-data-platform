@@ -1,0 +1,124 @@
+{
+  "run_timestamp": "2026-03-13T19:20:02.715797+00:00",
+  "overall_status": "passed",
+  "results": [
+    {
+      "layer": "bronze",
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_null_event_ids",
+          "passed": "True",
+          "details": "Null event_ids: 0"
+        },
+        {
+          "check": "no_null_event_types",
+          "passed": "True",
+          "details": "Null event_types: 0"
+        },
+        {
+          "check": "no_null_user_ids",
+          "passed": "True",
+          "details": "Null user_ids: 0"
+        },
+        {
+          "check": "unique_event_ids",
+          "passed": "True",
+          "details": "Duplicate event_ids: 0"
+        },
+        {
+          "check": "valid_event_types",
+          "passed": true,
+          "details": "Invalid types: 0"
+        },
+        {
+          "check": "positive_prices",
+          "passed": true,
+          "details": "Invalid prices: 0"
+        },
+        {
+          "check": "valid_categories",
+          "passed": true,
+          "details": "Invalid categories: 0"
+        },
+        {
+          "check": "minimum_row_count",
+          "passed": true,
+          "details": "Row count: 100 (min: 10)"
+        },
+        {
+          "check": "views_exceed_orders",
+          "passed": true,
+          "details": "Views: 28 Orders: 19"
+        }
+      ]
+    },
+    {
+      "layer": "silver",
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_null_event_ids",
+          "passed": "True",
+          "details": "Null event_ids: 0"
+        },
+        {
+          "check": "no_invalid_prices_after_filter",
+          "passed": true,
+          "details": "Invalid prices after filter: 0"
+        },
+        {
+          "check": "only_valid_event_types",
+          "passed": true,
+          "details": "Invalid types after filter: 0"
+        },
+        {
+          "check": "valid_total_amounts",
+          "passed": true,
+          "details": "Invalid total amounts: 0"
+        },
+        {
+          "check": "valid_payment_methods",
+          "passed": true,
+          "details": "Invalid payment methods: 0"
+        },
+        {
+          "check": "minimum_row_count",
+          "passed": true,
+          "details": "Silver row count: 100"
+        }
+      ]
+    },
+    {
+      "layer": "gold",
+      "passed": true,
+      "checks": [
+        {
+          "check": "positive_revenue",
+          "passed": true,
+          "details": "Negative revenue rows: 0"
+        },
+        {
+          "check": "positive_order_counts",
+          "passed": true,
+          "details": "Invalid order counts: 0"
+        },
+        {
+          "check": "no_null_categories",
+          "passed": "True",
+          "details": "Null categories: 0"
+        },
+        {
+          "check": "reasonable_avg_order_value",
+          "passed": true,
+          "details": "Unreasonable avg values: 0"
+        },
+        {
+          "check": "all_categories_present",
+          "passed": true,
+          "details": "Categories found: 5 (expected: 5)"
+        }
+      ]
+    }
+  ]
+}
