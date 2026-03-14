@@ -35,4 +35,7 @@ airflow/logs/
 .vscode/
 
 # Jupyter
-.ipynb_checkpoints/
+.ipynb_checkpoints/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
