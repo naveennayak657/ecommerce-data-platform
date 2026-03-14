@@ -78,9 +78,9 @@ def create_spark_session() -> SparkSession:
         .config(
             "spark.jars.packages",
             # delta lake package for medallion architecture
-            "io.delta:delta-spark_2.12:3.2.0,"
+            "io.delta:delta-spark_2.13:4.0.0,"
             # kafka package for reading streams
-            "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
+            "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0"
         )
         .config("spark.sql.extensions",
                 "io.delta.sql.DeltaSparkSessionExtension")

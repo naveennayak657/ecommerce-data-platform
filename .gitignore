@@ -39,3 +39,7 @@ airflow/logs/
 *.tfstate
 *.tfstate.backup
 *.tfvars
+delta_lake/bronze/
+delta_lake/silver/
+delta_lake/gold/
+delta_lake/checkpoints/
